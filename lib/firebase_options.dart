@@ -32,7 +32,7 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyD05bUPYv7U33tQJQ3Pn5aHQM_BEniLN04',
+    apiKey: 'AIzaSyBZKcHZH40hC766i8-NI8Qv1zAniSv_PSA',
     authDomain: 'utility-go.firebaseapp.com',
     projectId: 'utility-go',
     storageBucket: 'utility-go.firebasestorage.app',
@@ -42,7 +42,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDiqJqql43phPA3JlPZfrtoYfnfUi_T2A8',
+    apiKey: 'AIzaSyDrysD_rA-GyQ6U_pb2EzwL6XaAgsQCLQM',
     appId: '1:270530921616:android:08c8bfb1de2bf1f6e68415',
     messagingSenderId: '270530921616',
     projectId: 'utility-go',
@@ -50,11 +50,11 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDemoKey-Replace-With-Your-Actual-Firebase-Key',
-    appId: '1:123456789:ios:abcdef123456',
-    messagingSenderId: '123456789',
-    projectId: 'your-project-id',
-    storageBucket: 'your-project.appspot.com',
+    apiKey: 'AIzaSyAlgbLCMk3L0TB20i7CrzEe1NC-zb1iouI',
+    appId: '1:270530921616:ios:9a6b4faf272f10fee68415',
+    messagingSenderId: '270530921616',
+    projectId: 'utility-go',
+    storageBucket: 'utility-go.firebasestorage.app',
     iosBundleId: 'com.example.utilityGo',
   );
 
