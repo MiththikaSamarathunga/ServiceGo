@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "270530921616",
+    "project_id": "utility-go",
+    "storage_bucket": "utility-go.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:270530921616:android:08c8bfb1de2bf1f6e68415",
+        "android_client_info": {
+          "package_name": "com.example.utility_go"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiqJqql43phPA3JlPZfrtoYfnfUi_T2A8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
