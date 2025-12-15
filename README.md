@@ -129,16 +129,3 @@ Thanks for your interest! To contribute:
 - If `flutter run` fails on Chrome, run `flutter doctor` and verify SDKs.
 - For Android build issues, ensure an Android SDK and emulator are installed.
 
-## License
-
-This project does not include a license file. Add a `LICENSE` file if you
-intend to open-source this repository and select a license (MIT, Apache 2.0, etc.).
-
----
-
-If you'd like, I can also:
-- add CI workflow badges (GitHub Actions for `flutter test` / `flutter build`)
-- insert screenshots into `README.md` (you can add images under `assets/images`)
-- add a short developer setup script for Windows (PowerShell)
-
-Tell me which you'd like next.
