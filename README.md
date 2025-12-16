@@ -75,26 +75,6 @@ flutter run -d <device-id>
 flutter run -d <ios-device-or-simulator>
 ```
 
-## Building releases
-
-- Android APK:
-
-```
-flutter build apk --release
-```
-
-- iOS (macOS):
-
-```
-flutter build ios --release
-```
-
-- Web:
-
-```
-flutter build web
-```
-
 ## Testing
 
 Run unit and widget tests:
