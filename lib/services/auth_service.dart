@@ -37,9 +37,6 @@ class AuthService {
     }
   }
 
-  /// Create or update a user document in Firestore. This is separated from
-  /// the authentication call so callers can perform the write in background
-  /// without blocking UI navigation.
   Future<void> createUserDocument({
     required String uid,
     required String email,

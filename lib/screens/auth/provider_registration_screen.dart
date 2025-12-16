@@ -124,31 +124,21 @@ class _ProviderRegistrationScreenState extends State<ProviderRegistrationScreen>
               .createServiceProvider(provider)
               .timeout(const Duration(seconds: 12));
         } catch (e) {
-          // Do not block navigation on Firestore write errors; inform the user
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text('Registered but failed to save provider details: $e')),
             );
           }
         }
-
-        // Refresh auth provider data so routing logic (AuthWrapper) has
-        // the up-to-date profile (including userType). This reduces
-        // flicker caused by the root auth wrapper deciding which home
-        // to show while the profile write is still propagating.
         try {
           await authProvider.loadUserData().timeout(const Duration(seconds: 8));
         } catch (_) {
-          // ignore: best-effort refresh; proceed to navigation anyway
         }
 
         if (mounted) {
           setState(() {
             _isLoading = false;
           });
-
-          // Prefer the provider dashboard when provider data appears,
-          // otherwise fall back to the dashboard as the intended destination.
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(

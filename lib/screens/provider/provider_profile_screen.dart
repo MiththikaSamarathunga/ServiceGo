@@ -17,6 +17,9 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
   final FirestoreService _firestoreService = FirestoreService();
   
   late TextEditingController _locationController;
+  late TextEditingController _nameController;
+  late TextEditingController _emailController;
+  late TextEditingController _phoneController;
   late TextEditingController _descriptionController;
   late String _serviceCategory;
   bool _isLoading = false;
@@ -24,6 +27,9 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
   @override
   void initState() {
     super.initState();
+    _nameController = TextEditingController(text: widget.provider.name);
+    _emailController = TextEditingController(text: widget.provider.email);
+    _phoneController = TextEditingController(text: widget.provider.phone);
     _locationController = TextEditingController(text: widget.provider.location);
     _descriptionController = TextEditingController(text: widget.provider.description ?? '');
     _serviceCategory = widget.provider.serviceCategory;
@@ -31,6 +37,9 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
 
   @override
   void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _phoneController.dispose();
     _locationController.dispose();
     _descriptionController.dispose();
     super.dispose();
@@ -46,6 +55,9 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
         await _firestoreService.updateServiceProvider(
           widget.provider.uid,
           {
+            'name': _nameController.text.trim(),
+            'email': _emailController.text.trim(),
+            'phone': _phoneController.text.trim(),
             'location': _locationController.text.trim(),
             'description': _descriptionController.text.trim(),
             'serviceCategory': _serviceCategory,
@@ -91,24 +103,57 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 24),
-                ListTile(
-                  leading: const Icon(Icons.person),
-                  title: const Text('Name'),
-                  subtitle: Text(widget.provider.name),
-                  contentPadding: EdgeInsets.zero,
+                TextFormField(
+                  controller: _nameController,
+                  decoration: const InputDecoration(
+                    labelText: 'Full Name',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.person),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return 'Please enter your name';
+                    }
+                    return null;
+                  },
                 ),
-                ListTile(
-                  leading: const Icon(Icons.email),
-                  title: const Text('Email'),
-                  subtitle: Text(widget.provider.email),
-                  contentPadding: EdgeInsets.zero,
+                const SizedBox(height: 12),
+                TextFormField(
+                  controller: _emailController,
+                  decoration: const InputDecoration(
+                    labelText: 'Email',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.email),
+                  ),
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return 'Please enter your email';
+                    }
+                    final emailRegex = RegExp(r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}");
+                    if (!emailRegex.hasMatch(value.trim())) {
+                      return 'Please enter a valid email';
+                    }
+                    return null;
+                  },
                 ),
-                ListTile(
-                  leading: const Icon(Icons.phone),
-                  title: const Text('Phone'),
-                  subtitle: Text(widget.provider.phone),
-                  contentPadding: EdgeInsets.zero,
+                const SizedBox(height: 12),
+                TextFormField(
+                  controller: _phoneController,
+                  decoration: const InputDecoration(
+                    labelText: 'Phone',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.phone),
+                  ),
+                  keyboardType: TextInputType.phone,
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return 'Please enter your phone number';
+                    }
+                    return null;
+                  },
                 ),
+                const SizedBox(height: 12),
                 const SizedBox(height: 24),
                 const Text(
                   'Editable Fields',

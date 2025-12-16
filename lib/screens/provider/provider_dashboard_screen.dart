@@ -31,14 +31,10 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
     return StreamBuilder<ServiceProviderModel?>(
       stream: _firestoreService.getServiceProvider(uid),
       builder: (context, snapshot) {
-        // Cache the most recent provider data to avoid flicker when the
-        // stream re-connects or data momentarily disappears.
         if (snapshot.hasData && snapshot.data != null) {
           _cachedProvider = snapshot.data;
         }
 
-        // Use cached data if available; only show loading if we have never
-        // received data before. This prevents flicker on reconnect.
         final provider = _cachedProvider;
         if (provider == null) {
           if (snapshot.connectionState == ConnectionState.waiting) {
