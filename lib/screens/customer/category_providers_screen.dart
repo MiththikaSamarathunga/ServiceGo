@@ -19,17 +19,14 @@ class _CategoryProvidersScreenState extends State<CategoryProvidersScreen> {
   final FirestoreService _firestoreService = FirestoreService();
   final LocationService _locationService = LocationService();
   Position? _userPosition;
-  // location load state not used here (removed unused field)
-  // debug toggle removed - showing only production UI
-
   @override
+
   void initState() {
     super.initState();
     _loadUserLocation();
   }
 
   Future<void> _loadUserLocation() async {
-    // indicate start of async load (no visual loader used here)
 
     Position? position = await _locationService.getCurrentLocation();
     
@@ -46,7 +43,6 @@ class _CategoryProvidersScreenState extends State<CategoryProvidersScreen> {
         altitudeAccuracy: 0,
         headingAccuracy: 0,
       );
-      // finished loading
     });
   }
 
@@ -201,7 +197,6 @@ class _ProviderCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                    // debug removed
                   ],
                 ),
               ),

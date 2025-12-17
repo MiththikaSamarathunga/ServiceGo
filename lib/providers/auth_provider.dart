@@ -23,23 +23,13 @@ class AuthProvider extends ChangeNotifier {
         _currentUser = await _authService
             .getUserData(_authService.currentUser!.uid)
             .timeout(const Duration(seconds: 10));
-        // If no Firestore user document exists, create a minimal one so
-        // the app has profile data to work with. This avoids login getting
-        // stuck when the auth user exists but a profile doc was not written.
         if (_currentUser == null) {
-          final user = _authService.currentUser; // Firebase User
+          final user = _authService.currentUser; 
           final uid = user!.uid;
           final email = user.email ?? '';
           final name = user.displayName ?? '';
-          // Default phone and userType; app can let user complete profile later.
           final phone = '';
-          // Do not default to 'customer' here — leave userType empty so
-          // the app's root routing does not incorrectly assume a customer
-          // while a real profile write is still propagating.
           final userType = '';
-
-          // Create the document (best-effort). If it fails, record error but
-          // still allow the app to continue.
           try {
             await _authService.createUserDocument(
               uid: uid,
@@ -79,15 +69,9 @@ class AuthProvider extends ChangeNotifier {
       _error = null;
       _isLoading = true;
       notifyListeners();
-      // Create the Firebase Auth user first so UI can navigate immediately.
-      // Perform Firestore writes in background to avoid blocking the UI.
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password)
           .timeout(const Duration(seconds: 15));
-
-      // Fire-and-forget: create user document in Firestore without blocking
-      // the signup return. Log errors to _error if they occur but do not
-      // prevent navigation.
       _authService.createUserDocument(
         uid: userCredential.user!.uid,
         email: email,
@@ -97,8 +81,6 @@ class AuthProvider extends ChangeNotifier {
       ).catchError((e) {
         _error = 'Failed to write user data: $e';
       });
-
-      // Start loading user data in background (best-effort)
       loadUserData();
 
       _isLoading = false;

@@ -17,6 +17,9 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
   final FirestoreService _firestoreService = FirestoreService();
   
   late TextEditingController _locationController;
+  late TextEditingController _nameController;
+  late TextEditingController _emailController;
+  late TextEditingController _phoneController;
   late TextEditingController _descriptionController;
   late String _serviceCategory;
   bool _isLoading = false;
@@ -24,6 +27,9 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
   @override
   void initState() {
     super.initState();
+    _nameController = TextEditingController(text: widget.provider.name);
+    _emailController = TextEditingController(text: widget.provider.email);
+    _phoneController = TextEditingController(text: widget.provider.phone);
     _locationController = TextEditingController(text: widget.provider.location);
     _descriptionController = TextEditingController(text: widget.provider.description ?? '');
     _serviceCategory = widget.provider.serviceCategory;
@@ -31,6 +37,9 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
 
   @override
   void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _phoneController.dispose();
     _locationController.dispose();
     _descriptionController.dispose();
     super.dispose();
@@ -46,6 +55,9 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
         await _firestoreService.updateServiceProvider(
           widget.provider.uid,
           {
+            'name': _nameController.text.trim(),
+            'email': _emailController.text.trim(),
+            'phone': _phoneController.text.trim(),
             'location': _locationController.text.trim(),
             'description': _descriptionController.text.trim(),
             'serviceCategory': _serviceCategory,
@@ -103,12 +115,7 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
                   subtitle: Text(widget.provider.email),
                   contentPadding: EdgeInsets.zero,
                 ),
-                ListTile(
-                  leading: const Icon(Icons.phone),
-                  title: const Text('Phone'),
-                  subtitle: Text(widget.provider.phone),
-                  contentPadding: EdgeInsets.zero,
-                ),
+                const SizedBox(height: 12),
                 const SizedBox(height: 24),
                 const Text(
                   'Editable Fields',
@@ -132,6 +139,22 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
                     setState(() {
                       _serviceCategory = value!;
                     });
+                  },
+                ),
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: _phoneController,
+                  decoration: const InputDecoration(
+                    labelText: 'Phone',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.phone),
+                  ),
+                  keyboardType: TextInputType.phone,
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return 'Please enter your phone number';
+                    }
+                    return null;
                   },
                 ),
                 const SizedBox(height: 16),

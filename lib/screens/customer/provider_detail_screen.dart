@@ -76,7 +76,6 @@ class _ProviderDetailScreenState extends State<ProviderDetailScreen> {
   Future<void> _makePhoneCall() async {
     final raw = widget.provider.phone;
 
-    // Quick validation
     if (raw.trim().isEmpty) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -86,7 +85,6 @@ class _ProviderDetailScreenState extends State<ProviderDetailScreen> {
       return;
     }
 
-    // Allow + and digits only
     final cleaned = raw.replaceAll(RegExp(r"[^0-9+]"), '');
     if (cleaned.isEmpty) {
       if (mounted) {
@@ -101,13 +99,11 @@ class _ProviderDetailScreenState extends State<ProviderDetailScreen> {
 
     try {
       if (Platform.isAndroid) {
-        // Ask for CALL_PHONE runtime permission (permission_handler maps to CALL_PHONE)
         final status = await Permission.phone.status;
         if (!status.isGranted) {
           final result = await Permission.phone.request();
           if (!result.isGranted) {
             if (result.isPermanentlyDenied) {
-              // guide user to settings
               if (mounted) {
                 final openSettings = await showDialog<bool>(
                   context: context,
@@ -126,8 +122,6 @@ class _ProviderDetailScreenState extends State<ProviderDetailScreen> {
                 }
               }
             }
-
-            // fallback: open dialer or copy number
             if (await canLaunchUrl(phoneUri)) {
               await launchUrl(phoneUri, mode: LaunchMode.externalApplication);
             } else {
@@ -141,11 +135,8 @@ class _ProviderDetailScreenState extends State<ProviderDetailScreen> {
             return;
           }
         }
-
-        // Permission was granted — perform a direct call
         final didCall = await FlutterPhoneDirectCaller.callNumber(cleaned);
         if (didCall == null || didCall == false) {
-          // If direct call fails for any reason, fallback to dialer or copy
           if (await canLaunchUrl(phoneUri)) {
             await launchUrl(phoneUri, mode: LaunchMode.externalApplication);
           } else {
@@ -160,7 +151,6 @@ class _ProviderDetailScreenState extends State<ProviderDetailScreen> {
         return;
       }
 
-      // Non-Android: open external dialer if available
       if (await canLaunchUrl(phoneUri)) {
         final launched = await launchUrl(phoneUri, mode: LaunchMode.externalApplication);
         if (!launched && mounted) {
@@ -294,7 +284,7 @@ class _ProviderDetailScreenState extends State<ProviderDetailScreen> {
                         subtitle: Text('${widget.distance!.toStringAsFixed(1)} km away'),
                         contentPadding: EdgeInsets.zero,
                       ),
-                    // debug info removed — production UI shows only the distance in km
+
                     if (widget.provider.description != null &&
                         widget.provider.description!.isNotEmpty) ...[
                       const SizedBox(height: 16),
